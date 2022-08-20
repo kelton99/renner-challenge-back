@@ -16,6 +16,6 @@ connectDB();
 
 app.use(cors());
 
-app.use('/api', routes)
+app.use('', routes);
 
 app.listen(port, console.log(`Iniciou server na porta ${port}`));

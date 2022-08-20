@@ -5,9 +5,7 @@ const configMulter = multer.diskStorage({
 		callback(null, 'uploads');
 	},
 	filename: (request, file, callback) => {
-		console.log(file)
-		const sufix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-		callback(null, file.originalname + '-' + sufix);
+		callback(null, file.originalname);
 	}
 });
 

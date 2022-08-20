@@ -5,15 +5,13 @@ const uploadImage = require('../config/multer');
 const router = express.Router();
 
 router.post('/products', uploadImage.single("image"), async (req, res) => {
-	const {name, description, price, quantity} = req.body;
-	const filename = req.file.filename;
-	console.log(req.file);
+	const { name, description, price, quantity } = req.body;
 	const product = new Product({
 		name,
 		description,
 		price,
 		quantity,
-		image: filename
+		image: req.file.filename
 	});
 
 	try {
@@ -36,6 +34,10 @@ router.get('/products', async (req, res) => {
 
 });
 
+router.get('/products/images/:path', (req, res) => {
+	res.download('./uploads/' + req.params.path);
+});
+
 router.get('/products/:id', async (req, res) => {
 	
 	try {
@@ -48,7 +50,7 @@ router.get('/products/:id', async (req, res) => {
 
 });
 
-router.delete('products/:id', async (req, res) => {
+router.delete('/products/:id', async (req, res) => {
 	try {
 		const id = req.params.id;
 		const data = await Product.findByIdAndDelete(id);
@@ -57,6 +59,5 @@ router.delete('products/:id', async (req, res) => {
 		res.status(400).json({ message: error.message });
 	}
 });
-
 
 module.exports = router;
